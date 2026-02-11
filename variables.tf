@@ -21,8 +21,8 @@ EOT
     resource_group_name              = string
     sku                              = string
     subnet_id                        = string
-    branch_to_branch_traffic_enabled = optional(bool, false)
-    hub_routing_preference           = optional(string, "ExpressRoute")
+    branch_to_branch_traffic_enabled = optional(bool)   # Default: false
+    hub_routing_preference           = optional(string) # Default: "ExpressRoute"
     tags                             = optional(map(string))
   }))
 }

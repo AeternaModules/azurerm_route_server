@@ -1,3 +1,7 @@
+output "route_servers_id" {
+  description = "Map of id values across all route_servers, keyed the same as var.route_servers"
+  value       = { for k, v in azurerm_route_server.route_servers : k => v.id }
+}
 output "route_servers_branch_to_branch_traffic_enabled" {
   description = "Map of branch_to_branch_traffic_enabled values across all route_servers, keyed the same as var.route_servers"
   value       = { for k, v in azurerm_route_server.route_servers : k => v.branch_to_branch_traffic_enabled }

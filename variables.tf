@@ -21,18 +21,10 @@ EOT
     resource_group_name              = string
     sku                              = string
     subnet_id                        = string
-    branch_to_branch_traffic_enabled = optional(bool)   # Default: false
-    hub_routing_preference           = optional(string) # Default: "ExpressRoute"
+    branch_to_branch_traffic_enabled = optional(bool)
+    hub_routing_preference           = optional(string)
     tags                             = optional(map(string))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.route_servers : (
-        contains(["Standard"], v.sku)
-      )
-    ])
-    error_message = "must be one of: Standard"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_route_server's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -55,6 +47,9 @@ EOT
   #   source:    [from resourcegroups.ValidateName] !matched
   # path: location
   #   source:    location.EnhancedValidate: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
+  # path: sku
+  #   condition: contains(["Standard"], value)
+  #   message:   must be one of: Standard
   # path: public_ip_address_id
   #   source:    [from commonids.ValidatePublicIPAddressID] !ok
   # path: public_ip_address_id
